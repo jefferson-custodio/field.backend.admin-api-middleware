@@ -1,0 +1,11 @@
+# DB
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=scaffold
+DB_DATABASE=scaffold
+DB_SSL=false
+
+
+JWT_KEY=test

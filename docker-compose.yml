@@ -1,0 +1,55 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      TZ: 'America/Sao_Paulo'
+      POSTGRES_USER: dition_usr
+      POSTGRES_PASSWORD: dition_db_pass
+      POSTGRES_DB: dition_db
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - net_dition
+  # redis:
+  #   image: 'redis:alpine'
+  #   ports:
+  #     - '6379:6379'
+  #   command: redis-server --save 20 1 --loglevel warning --requirepass redispw
+  #   networks:
+  #     - net_dition
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # env_file:
+    #   - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    networks:
+      - net_dition
+    restart: always
+    command: sh -c "npm run start:dev"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: dition_usr
+      DB_PASSWORD: dition_db_pass
+      DB_DATABASE: dition_db
+      DB_SSL: false
+      JWT_KEY: jwt_security_key
+      MAIL_HOST: smtp-relay.brevo.com
+      MAIL_PORT: 587
+      # MAIL_USER:
+      # MAIL_PASS:
+
+volumes:
+  postgres_data:
+networks:
+  net_dition:
+    name: net_dition
