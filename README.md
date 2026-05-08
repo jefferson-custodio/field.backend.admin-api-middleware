@@ -259,3 +259,23 @@ export class UsersController {
   }
 }
 ```
+
+### Build e Deploy - API
+
+#### 1. **Login**
+
+```bash
+az login
+```
+
+#### 2. **Login no ACR**
+
+```bash
+az acr login --name fieldbackendadminmiddleware-aeekfnb5gud5d8bj
+```
+
+#### 3. **Build e Push da Imagem**
+
+```bash
+docker buildx build -f Dockerfile --platform linux/amd64 --provenance=false -t fieldbackendadminmiddleware-aeekfnb5gud5d8bj.azurecr.io/field-backend-admin-api-middleware:prd --push .
+```
