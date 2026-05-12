@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './common/external/pg/pg.connection';
 import { AuthModule } from './app/auth/auth.module';
 import { VersionsModule } from './app/versions/versions.module';
+import { ProxyVortxModule } from './app/proxy-vortx/proxy-vortx.module';
+import { FundsModule } from './app/funds/funds.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { VersionsModule } from './app/versions/versions.module';
     AuthModule,
     UsersModule,
     VersionsModule,
+    FundsModule,
+    ProxyVortxModule,
   ],
   controllers: [AppController],
   providers: [AppService],

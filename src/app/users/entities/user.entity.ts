@@ -6,9 +6,12 @@ import {
   comparePassword,
 } from '../../../common/utils/password.utils';
 import { AuthLoginAttempt } from '../../auth/entities/auth_login_attempt.entity';
-
+import { FundAccess } from 'src/app/funds/entities/user-fund-access.entity';
 @Entity()
 export class User extends BaseAppEntity {
+  @OneToMany(() => FundAccess, (fundAccess) => fundAccess.user)
+  fundAccesses: FundAccess[];
+
   @Column({ nullable: false })
   name: string;
 

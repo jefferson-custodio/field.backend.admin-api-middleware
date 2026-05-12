@@ -32,4 +32,11 @@ export const CONFIG = {
       pass: process.env.MAIL_PASS,
     },
   },
+  vortx: {
+    baseUrl: process.env.VORTX_BASE_URL || 'https://vxapi.vortx.com.br',
+    apiKey: process.env.VORTX_API_KEY || '',
+    username: process.env.VORTX_USERNAME || '',
+    password: process.env.VORTX_PASSWORD || '',
+    timeoutMs: Number(process.env.VORTX_TIMEOUT_MS || 15000),
+  },
 };
