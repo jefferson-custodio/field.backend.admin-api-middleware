@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { AssetPortfolioResponseDto } from './dto/asset-portfolio.dto';
 import { ReportTypeEnum } from '../funds/enums/report-type.enum';
-import { ReportTypeEnum } from './enums/report-type.enum';
+
 import { LiabilityShareholderMovementDto } from './dto/liability-shareholder-movement.dto';
 import { LiabilityShareholderPositionDto } from './dto/liability-shareholder-position.dto';
 import { ReportType } from './decorators/report-type.decorator';
