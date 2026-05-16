@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { BaseGuard } from 'src/app/_base/base.guard';
 import { FundsService } from 'src/app/funds/funds.service';
 import { IJwtPayload } from 'src/common/interfaces/jwt-payload.interface';
-import { REPORT_TYPE_KEY } from '../decorators/report-type.decorator';
+import { REPORT_TYPE_KEY } from 'src/common/decorator/report-type.decorator';
 import { ReportTypeEnum } from 'src/app/funds/enums/report-type.enum';
 
 @Injectable()

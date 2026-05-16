@@ -12,7 +12,7 @@ import { ReportTypeEnum } from '../funds/enums/report-type.enum';
 
 import { LiabilityShareholderMovementDto } from './dto/liability-shareholder-movement.dto';
 import { LiabilityShareholderPositionDto } from './dto/liability-shareholder-position.dto';
-import { ReportType } from './decorators/report-type.decorator';
+import { ReportType } from 'src/common/decorator/report-type.decorator';
 import { ProxyVortxGuard } from './guards/proxy-vortx.guard';
 import { ProxyVortxService } from './proxy-vortx.service';
 
