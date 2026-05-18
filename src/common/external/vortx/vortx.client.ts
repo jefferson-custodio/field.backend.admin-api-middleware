@@ -15,8 +15,10 @@ export class VortxClient {
   private async makeRequest<T = any>(
     endpoint: string,
     queryParams?: Record<string, any>,
+    authorization?: string,
   ): Promise<T> {
-    const token = await this.authService.getBearerToken();
+    const authHeader =
+      authorization || `Bearer ${await this.authService.getBearerToken()}`;
 
     const url = new URL(`${this.baseUrl}${endpoint}`);
     if (queryParams) {
@@ -36,7 +38,7 @@ export class VortxClient {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: authHeader,
       },
       signal: AbortSignal.timeout(this.timeoutMs),
     });
@@ -75,9 +77,14 @@ export class VortxClient {
     cnpjFundo: string,
     queryParams: Record<string, any>,
   ): Promise<any> {
+    if (!CONFIG.vortx.apiKey) {
+      throw new Error('VORTX_API_KEY is not configured.');
+    }
+
     return this.makeRequest(
-      `/Receivables/relatorios/estoque/${cnpjFundo}`,
+      `/vxrecebiveis/relatorios/estoque/${cnpjFundo}`,
       queryParams,
+      CONFIG.vortx.apiKey,
     );
   }
 

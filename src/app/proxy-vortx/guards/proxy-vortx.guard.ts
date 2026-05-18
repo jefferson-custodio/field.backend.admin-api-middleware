@@ -24,11 +24,15 @@ export class ProxyVortxGuard extends BaseGuard {
   private extractFundDocument(request: any): string | undefined {
     const rawValue =
       request.params?.fundDocument ??
+      request.params?.cnpjFundo ??
       request.query?.fundDocument ??
       request.query?.cnpjFundo ??
       request.query?.['cnpjFundos[]'] ??
       request.query?.cnpjFundos ??
-      request.body?.fundDocument;
+      request.body?.fundDocument ??
+      request.body?.cnpjFundo ??
+      request.body?.['cnpjFundos[]'] ??
+      request.body?.cnpjFundos;
 
     if (Array.isArray(rawValue)) {
       return rawValue.find((item) => typeof item === 'string' && item.trim());
