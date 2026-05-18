@@ -8,12 +8,17 @@ import { LiabilityShareholderPositionDto } from './dto/liability-shareholder-pos
 export class ProxyVortxService {
   constructor(private readonly vortxClient: VortxClient) {}
 
-  getReceivablesShipment(
-    fundDocument: string,
-    query: Record<string, any>,
-  ): Promise<any> {
+  getReceivablesShipment(query: Record<string, any>): Promise<any> {
     const { tipoRelatorio, ...restQuery } = query;
-    return this.vortxClient.getReceivablesShipment(tipoRelatorio, restQuery);
+    const cnpjFundo = restQuery.cnpjFundo || restQuery.fundDocument;
+
+    return this.vortxClient.getReceivablesShipment(
+      String(tipoRelatorio).toLowerCase(),
+      {
+        ...restQuery,
+        cnpjFundo,
+      },
+    );
   }
 
   getReceivablesStock(

@@ -67,9 +67,14 @@ export class VortxClient {
     tipoRelatorio: string,
     queryParams: Record<string, any>,
   ): Promise<any> {
+    if (!CONFIG.vortx.apiKey) {
+      throw new Error('VORTX_API_KEY is not configured.');
+    }
+
     return this.makeRequest(
-      `/Receivables/relatorios/${tipoRelatorio}`,
+      `/vxrecebiveis/relatorios/${tipoRelatorio}`,
       queryParams,
+      CONFIG.vortx.apiKey,
     );
   }
 
