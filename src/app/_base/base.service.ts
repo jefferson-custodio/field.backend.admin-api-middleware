@@ -144,7 +144,7 @@ export class BaseService<T> {
   }
 
   async upsert(filters, data): Promise<T> {
-    let item = filters ? await this.repository.findOneBy(filters) : undefined;
+    const item = filters ? await this.repository.findOneBy(filters) : undefined;
 
     if (item) {
       return await this.update(item.id, data);
@@ -157,15 +157,15 @@ export class BaseService<T> {
     const dataFromDb = await this.repository.findBy(filters);
     const persistedItemsIds = [];
 
-    for (let item of data) {
-      let storedItem = await this.upsert(
+    for (const item of data) {
+      const storedItem = await this.upsert(
         item.id ? { id: item.id } : null,
         item,
       );
       persistedItemsIds.push(+storedItem.id);
     }
 
-    for (let itemFromDb of dataFromDb) {
+    for (const itemFromDb of dataFromDb) {
       const id = itemFromDb.id;
       if (!persistedItemsIds.includes(+id)) await this.delete(id);
     }

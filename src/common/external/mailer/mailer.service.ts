@@ -1,13 +1,13 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { IMail } from "./interfaces/mail.interface";
-import { Attachment } from "nodemailer/lib/mailer";
-import Handlebars from "handlebars";
-import { MailTemplates } from "./enums/templates.enum";
-import * as path from "path";
-import * as nodemailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
-import { CONFIG } from "src/config";
-import * as fs from "fs";
+import { Injectable, Logger } from '@nestjs/common';
+import { IMail } from './interfaces/mail.interface';
+import { Attachment } from 'nodemailer/lib/mailer';
+import Handlebars from 'handlebars';
+import { MailTemplates } from './enums/templates.enum';
+import * as path from 'path';
+import * as nodemailer from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { CONFIG } from 'src/config';
+import * as fs from 'fs';
 @Injectable()
 export class MailerService {
   private readonly logger = new Logger(MailerService.name);
@@ -42,7 +42,7 @@ export class MailerService {
 
   private compileTemplate(tpl: MailTemplates, tplContext: any) {
     const template = Handlebars.compile(
-      fs.readFileSync(this.getTemplatePath(tpl), { encoding: "utf-8" })
+      fs.readFileSync(this.getTemplatePath(tpl), { encoding: 'utf-8' }),
     );
     return template(tplContext);
   }
@@ -50,12 +50,12 @@ export class MailerService {
   private getTemplatePath(tpl: MailTemplates) {
     return path.resolve(
       process.cwd(),
-      "src",
-      "common",
-      "external",
-      "mailer",
-      "templates",
-      tpl + ".hbs"
+      'src',
+      'common',
+      'external',
+      'mailer',
+      'templates',
+      tpl + '.hbs',
     );
   }
 }

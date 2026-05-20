@@ -31,7 +31,38 @@ export class ProxyVortxService {
   getAssetPortfolio(
     query: Record<string, any>,
   ): Promise<AssetPortfolioResponseDto[]> {
-    return this.vortxClient.getAssetPortfolio(query);
+    const rawCnpjFundos =
+      query['cnpjFundos[]'] ??
+      query.cnpjFundos ??
+      query.cnpjFundo ??
+      query.fundDocument;
+    const cnpjFundos = Array.isArray(rawCnpjFundos)
+      ? rawCnpjFundos
+      : rawCnpjFundos !== undefined
+        ? [rawCnpjFundos]
+        : [];
+
+    const rawDataCarteira =
+      query.dataCarteira ?? query.dataPosicao ?? query.dataReferencia;
+    const normalizedDataCarteira =
+      typeof rawDataCarteira === 'string'
+        ? rawDataCarteira.split('T')[0].replace(/\//g, '-')
+        : rawDataCarteira;
+
+    const normalizedQuery: Record<string, any> = {
+      ...query,
+      'cnpjFundos[]': cnpjFundos
+        .map((item) => String(item).replace(/\D/g, ''))
+        .filter((item) => item),
+      dataCarteira: normalizedDataCarteira,
+    };
+
+    delete normalizedQuery.cnpjFundos;
+    delete normalizedQuery.cnpjFundo;
+    delete normalizedQuery.fundDocument;
+    delete normalizedQuery.dataPosicao;
+    delete normalizedQuery.dataReferencia;
+    return this.vortxClient.getAssetPortfolio(normalizedQuery);
   }
 
   getLiabilityShareholderPosition(

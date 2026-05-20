@@ -1,7 +1,7 @@
 export interface VortxAuthResponse {
-  authenticated: boolean;
+  authenticated?: boolean;
   token: string;
-  expiration: string;
+  expiration?: string;
 }
 
 export interface CachedVortxToken {

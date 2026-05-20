@@ -45,7 +45,6 @@ export class FundsService extends BaseService<Fund> {
       .andWhere('fund.externalCode = :fundDocument', { fundDocument })
       .andWhere('access.reportType = :reportType', { reportType })
       .getOne();
-
     return !!access;
   }
 }

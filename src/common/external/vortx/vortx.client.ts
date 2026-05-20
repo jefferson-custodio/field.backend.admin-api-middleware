@@ -94,7 +94,10 @@ export class VortxClient {
   }
 
   async getAssetPortfolio(queryParams: Record<string, any>): Promise<any> {
-    return this.makeRequest('/Carteira/buscar-carteira-json', queryParams);
+    return this.makeRequest(
+      '/carteira-liberada/buscarCarteiraJSON',
+      queryParams,
+    );
   }
 
   async getLiabilityShareholderPosition(

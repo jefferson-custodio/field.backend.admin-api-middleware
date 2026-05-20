@@ -12,7 +12,7 @@ export const runBatchPromises = async (
 
   const functions_separated_exec = functions_separated.map((el) => {
     return async () => {
-      let responses = [];
+      const responses = [];
       for (let index = 0; index < el.length; index++) {
         const func = el[index];
         responses.push(await func());

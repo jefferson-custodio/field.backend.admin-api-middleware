@@ -45,7 +45,7 @@ export class VortxAuthService {
     }
 
     const baseUrl = CONFIG.vortx.baseUrl.replace(/\/+$/, '');
-    const document = CONFIG.vortx.username.replace(/\D/g, '');
+    const login = CONFIG.vortx.username.replace(/\D/g, '');
     const response = await fetch(`${baseUrl}/vxlogin/api/user/AuthUserApi`, {
       method: 'POST',
       headers: {
@@ -53,9 +53,8 @@ export class VortxAuthService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: CONFIG.vortx.username,
-        document,
-        password: CONFIG.vortx.password,
+        token: CONFIG.vortx.password,
+        login,
       }),
       signal: AbortSignal.timeout(CONFIG.vortx.timeoutMs),
     });
@@ -77,12 +76,7 @@ export class VortxAuthService {
       );
     }
 
-    if (
-      !this.isVortxAuthResponse(payload) ||
-      !payload.authenticated ||
-      !payload.token ||
-      !payload.expiration
-    ) {
+    if (!this.isVortxAuthResponse(payload) || !payload.token) {
       throw new Error('Vortx auth returned an invalid payload.');
     }
 
@@ -95,11 +89,15 @@ export class VortxAuthService {
     return payload.token;
   }
 
-  private parseExpiration(expiration: string): Date {
+  private parseExpiration(expiration?: string): Date {
+    if (!expiration) {
+      return new Date(Date.now() + 55 * 60 * 1000);
+    }
+
     const parsedDate = new Date(expiration.replace(' ', 'T'));
 
     if (Number.isNaN(parsedDate.getTime())) {
-      throw new Error('Vortx auth returned an invalid expiration date.');
+      return new Date(Date.now() + 55 * 60 * 1000);
     }
 
     return parsedDate;
