@@ -23,6 +23,7 @@
     "migration:run": "npm run typeorm -- -d ./src/common/external/pg/pg.connection.ts migration:run",
     "migration:revert": "npm run typeorm -- -d ./src/common/external/pg/pg.connection.ts migration:revert",
     "seed": "npm run build && node dist/common/external/pg/seeder",
+    "seed:prd": "node dist/common/external/pg/seeder",
     "seed:refresh": "npm run build && node dist/common/external/pg/seeder --refresh"
   },
   "dependencies": {
