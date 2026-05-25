@@ -31,6 +31,7 @@ export class UserSeeder implements Seeder {
         createdByUserId: 1,
       },
       {
+        id: 2,
         name: 'Master Dition',
         email: 'master@dition.com.br',
         password:
@@ -39,9 +40,15 @@ export class UserSeeder implements Seeder {
         createdByUserId: 1,
       },
     ]);
+
+    await this.userRepository.query(
+      `SELECT setval(pg_get_serial_sequence('"user"', 'id'), (SELECT MAX("id") FROM "user"))`,
+    );
   }
 
   async drop(): Promise<any> {
-    return this.userRepository.delete({});
+    return this.userRepository.query(
+      'TRUNCATE TABLE "user" RESTART IDENTITY CASCADE',
+    );
   }
 }
