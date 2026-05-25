@@ -17,7 +17,7 @@ export class FundsService extends BaseService<Fund> {
       fundRepository,
       {
         searchableColumns: ['name'],
-        relations: ['fundAccesses'],
+        relations: ['userFundAccesses'],
         sortableColumns: ['id'],
       },
       versionsService,

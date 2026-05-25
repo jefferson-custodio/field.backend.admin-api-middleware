@@ -5,14 +5,19 @@ import { Fund } from '../../funds/entities/fund.entity';
 import { ReportTypeEnum } from '../../funds/enums/report-type.enum';
 import { User } from '../../users/entities/user.entity';
 
-@Entity()
-export class FundAccess extends BaseAppEntity {
-  @ManyToOne(() => User, (user) => user.fundAccesses)
+@Entity('user_fund_access')
+export class UserFundAccess extends BaseAppEntity {
+  @ManyToOne(() => User, (user) => user.userFundAccesses)
   user: User;
 
-  @ManyToOne(() => Fund, (fund) => fund.fundAccesses)
+  @ManyToOne(() => Fund, (fund) => fund.userFundAccesses)
   fund: Fund;
 
-  @Column({ nullable: false })
+  @Column({
+    type: 'enum',
+
+    enum: ReportTypeEnum,
+    nullable: false,
+  })
   reportType: ReportTypeEnum;
 }

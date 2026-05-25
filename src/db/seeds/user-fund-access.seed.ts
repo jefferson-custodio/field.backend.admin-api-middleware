@@ -4,7 +4,7 @@ import { Seeder } from 'nestjs-seeder';
 import { Repository } from 'typeorm';
 
 import { Fund } from '../../app/funds/entities/fund.entity';
-import { FundAccess } from '../../app/user-fund-access/entities/user-fund-access.entity';
+import { UserFundAccess } from '../../app/user-fund-access/entities/user-fund-access.entity';
 import { User } from '../../app/users/entities/user.entity';
 import { ReportTypeEnum } from '../../app/funds/enums/report-type.enum';
 
@@ -12,7 +12,9 @@ import { ReportTypeEnum } from '../../app/funds/enums/report-type.enum';
 export class UserFundAccessSeeder implements Seeder {
   private readonly targetUserEmail = 'master@dition.com.br';
 
-  private readonly targetFundExternalCode = '58396668000180';
+  private readonly targetFundExternalCode = '62728923000111';
+
+  private readonly isProduction = process.env.NODE_ENV === 'production';
 
   private readonly reportTypes = [
     ReportTypeEnum.MARKET,
@@ -23,8 +25,8 @@ export class UserFundAccessSeeder implements Seeder {
   ];
 
   constructor(
-    @InjectRepository(FundAccess)
-    private readonly fundAccessRepository: Repository<FundAccess>,
+    @InjectRepository(UserFundAccess)
+    private readonly userFundAccessRepository: Repository<UserFundAccess>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Fund)
@@ -32,6 +34,10 @@ export class UserFundAccessSeeder implements Seeder {
   ) {}
 
   async shouldRun(): Promise<boolean> {
+    if (this.isProduction) {
+      return false;
+    }
+
     const user = await this.userRepository.findOne({
       where: { email: this.targetUserEmail },
     });
@@ -43,7 +49,7 @@ export class UserFundAccessSeeder implements Seeder {
       return false;
     }
 
-    const existingAccesses = await this.fundAccessRepository
+    const existingAccesses = await this.userFundAccessRepository
       .createQueryBuilder('access')
       .select('access.reportType', 'reportType')
       .where('access.userId = :userId', { userId: user.id })
@@ -57,6 +63,10 @@ export class UserFundAccessSeeder implements Seeder {
   }
 
   async seed(): Promise<any> {
+    if (this.isProduction) {
+      return;
+    }
+
     const user = await this.userRepository.findOne({
       where: { email: this.targetUserEmail },
     });
@@ -68,7 +78,7 @@ export class UserFundAccessSeeder implements Seeder {
       return;
     }
 
-    const existingAccesses = await this.fundAccessRepository
+    const existingAccesses = await this.userFundAccessRepository
       .createQueryBuilder('access')
       .select('access.reportType', 'reportType')
       .where('access.userId = :userId', { userId: user.id })
@@ -101,9 +111,9 @@ export class UserFundAccessSeeder implements Seeder {
       fund.id,
     ]);
 
-    await this.fundAccessRepository.query(
+    await this.userFundAccessRepository.query(
       `
-        INSERT INTO "fund_access" ("createdAt", "updatedAt", "reportType", "userId", "fundId")
+        INSERT INTO "user_fund_access" ("createdAt", "updatedAt", "reportType", "userId", "fundId")
         VALUES ${valuesClause}
       `,
       parameters,
@@ -111,6 +121,10 @@ export class UserFundAccessSeeder implements Seeder {
   }
 
   async drop(): Promise<any> {
+    if (this.isProduction) {
+      return;
+    }
+
     const user = await this.userRepository.findOne({
       where: { email: this.targetUserEmail },
     });
@@ -122,9 +136,9 @@ export class UserFundAccessSeeder implements Seeder {
       return;
     }
 
-    await this.fundAccessRepository.query(
+    await this.userFundAccessRepository.query(
       `
-        DELETE FROM "fund_access"
+        DELETE FROM "user_fund_access"
         WHERE "userId" = $1
           AND "fundId" = $2
           AND "reportType" = ANY($3)

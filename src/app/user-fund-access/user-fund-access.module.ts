@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { FundAccess } from './entities/user-fund-access.entity';
+import { UserFundAccess } from './entities/user-fund-access.entity';
 import { UserFundAccessService } from './user-fund-access.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FundAccess])],
+  imports: [TypeOrmModule.forFeature([UserFundAccess])],
   providers: [UserFundAccessService],
   exports: [UserFundAccessService],
 })

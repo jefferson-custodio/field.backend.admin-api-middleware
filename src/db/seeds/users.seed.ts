@@ -35,7 +35,7 @@ export class UserSeeder implements Seeder {
         name: 'Master Dition',
         email: 'master@dition.com.br',
         password:
-          '$2b$10$7OArIn50pOxJvS7UZzC6DO0LzJB479Xx5EkmsKiv1QNmDyIi2hG4e', // 1V&#t0f7!vV@
+          '$2b$10$ry6UX9lOUb2zTBcKh/FPf.addLNTvYrpBm07DS4hAZB6lyzqckRee', // 1V&#t0f7!vV@
         role: UserRoleEnum.MASTER,
         createdByUserId: 1,
       },

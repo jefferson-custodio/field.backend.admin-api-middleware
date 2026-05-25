@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ReportTypeEnum } from '../funds/enums/report-type.enum';
-import { FundAccess } from './entities/user-fund-access.entity';
+import { UserFundAccess } from './entities/user-fund-access.entity';
 
 @Injectable()
 export class UserFundAccessService {
   constructor(
-    @InjectRepository(FundAccess)
-    private readonly fundAccessRepository: Repository<FundAccess>,
+    @InjectRepository(UserFundAccess)
+    private readonly userFundAccessRepository: Repository<UserFundAccess>,
   ) {}
 
   async hasAccess(
@@ -17,7 +17,7 @@ export class UserFundAccessService {
     fundDocument: string,
     reportType: ReportTypeEnum,
   ): Promise<boolean> {
-    const access = await this.fundAccessRepository
+    const access = await this.userFundAccessRepository
       .createQueryBuilder('access')
       .innerJoin('access.user', 'user')
       .innerJoin('access.fund', 'fund')
