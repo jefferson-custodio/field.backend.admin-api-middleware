@@ -124,25 +124,51 @@ export class ProxySingulareController {
   })
   @ApiBody({
     schema: {
-      type: 'object',
-      required: ['cnpjFundo', 'callbackUrl'],
-      properties: {
-        cnpjFundo: { type: 'string' },
-        callbackUrl: { type: 'string' },
-      },
+      oneOf: [
+        {
+          type: 'object',
+          required: ['cnpjFundo', 'callbackUrl', 'date'],
+          properties: {
+            cnpjFundo: { type: 'string' },
+            callbackUrl: { type: 'string' },
+            date: { type: 'string' },
+          },
+        },
+        {
+          type: 'object',
+          required: ['cnpjFundo', 'callbackUrl', 'dateFrom', 'dateTo'],
+          properties: {
+            cnpjFundo: { type: 'string' },
+            callbackUrl: { type: 'string' },
+            dateFrom: { type: 'string' },
+            dateTo: { type: 'string' },
+          },
+        },
+        {
+          type: 'object',
+          required: ['cnpjFundo', 'callbackUrl'],
+          properties: {
+            cnpjFundo: { type: 'string' },
+            callbackUrl: { type: 'string' },
+          },
+        },
+      ],
     },
   })
   @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
   async scheduleReport(
     @Param('tipoRelatorio', new ParseEnumPipe(SchedulerReportTypeEnum))
     tipoRelatorio: SchedulerReportTypeEnum,
-    @Body() body: { cnpjFundo: string; callbackUrl: string },
+    @Body()
+    body: {
+      cnpjFundo: string;
+      callbackUrl: string;
+      date?: string;
+      dateTo?: string;
+      dateFrom?: string;
+    },
   ): Promise<any> {
-    return this.proxySingulareService.scheduleReport(
-      tipoRelatorio,
-      body.cnpjFundo,
-      body.callbackUrl,
-    );
+    return this.proxySingulareService.scheduleReport(tipoRelatorio, body);
   }
 
   @Get('market-report')
