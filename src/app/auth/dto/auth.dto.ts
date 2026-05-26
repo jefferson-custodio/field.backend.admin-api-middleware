@@ -10,7 +10,7 @@ export class AuthDto {
   @IsNotEmpty({ message: IsNotEmptyMessage('email', 'Email') })
   email: string;
 
-  @ApiProperty({ default: '1V&#t0f7!vV@' })
+  @ApiProperty({ default: '' })
   @IsNotEmpty({ message: IsNotEmptyMessage('password', 'Senha') })
   // @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, {
   //   message: InvalidPasswordMessage('password'),
