@@ -25,15 +25,15 @@ export class UserSeeder implements Seeder {
       {
         id: 1,
         name: 'Sistema',
-        email: 'sistema@dition.com.br',
+        email: 'sistema@fieldasset.com.br',
         password: '-',
         role: UserRoleEnum.SYSTEM,
         createdByUserId: 1,
       },
       {
         id: 2,
-        name: 'Master Dition',
-        email: 'master@dition.com.br',
+        name: 'Master Field',
+        email: 'master@fieldasset.com.br',
         password:
           '$2b$10$ry6UX9lOUb2zTBcKh/FPf.addLNTvYrpBm07DS4hAZB6lyzqckRee', // 1V&#t0f7!vV@
         role: UserRoleEnum.MASTER,

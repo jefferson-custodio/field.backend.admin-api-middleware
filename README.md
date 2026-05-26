@@ -1,10 +1,10 @@
 <p align="center">
-  <a href="https://dition.com.br/" target="blank"><img src="https://dition.s3.sa-east-1.amazonaws.com/logo-dition-dark-blue.png" width="200" alt="Dition Logo" /></a>
+  <a href="https://fieldasset.com.br/" target="blank"><img src="https://fieldasset.s3.sa-east-1.amazonaws.com/logo-fieldasset-dark-blue.png" width="200" alt="Field Logo" /></a>
 </p>
 
 ## Description
 
-Projeto Dition NestJS
+Projeto Field NestJS
 
 ## Installation
 

@@ -4,22 +4,22 @@ services:
     image: postgres:16
     environment:
       TZ: 'America/Sao_Paulo'
-      POSTGRES_USER: dition_usr
-      POSTGRES_PASSWORD: dition_db_pass
-      POSTGRES_DB: dition_db
+      POSTGRES_USER: fieldasset_usr
+      POSTGRES_PASSWORD: fieldasset_db_pass
+      POSTGRES_DB: fieldasset_db
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     networks:
-      - net_dition
+      - net_fieldasset
   # redis:
   #   image: 'redis:alpine'
   #   ports:
   #     - '6379:6379'
   #   command: redis-server --save 20 1 --loglevel warning --requirepass redispw
   #   networks:
-  #     - net_dition
+  #     - net_fieldasset
   app:
     build:
       context: .
@@ -32,15 +32,15 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - net_dition
+      - net_fieldasset
     restart: always
     command: sh -c "npm run start:dev"
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USERNAME: dition_usr
-      DB_PASSWORD: dition_db_pass
-      DB_DATABASE: dition_db
+      DB_USERNAME: fieldasset_usr
+      DB_PASSWORD: fieldasset_db_pass
+      DB_DATABASE: fieldasset_db
       DB_SSL: false
       JWT_KEY: jwt_security_key
       MAIL_HOST: smtp-relay.brevo.com
@@ -51,5 +51,5 @@ services:
 volumes:
   postgres_data:
 networks:
-  net_dition:
-    name: net_dition
+  net_fieldasset:
+    name: net_fieldasset

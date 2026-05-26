@@ -6,7 +6,7 @@ import {
 } from '../../../common/utils/validator-errors.utils';
 
 export class AuthDto {
-  @ApiProperty({ default: 'master@dition.com.br' })
+  @ApiProperty({ default: '' })
   @IsNotEmpty({ message: IsNotEmptyMessage('email', 'Email') })
   email: string;
 

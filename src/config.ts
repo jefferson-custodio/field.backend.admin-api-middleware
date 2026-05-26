@@ -20,10 +20,10 @@ export const CONFIG = {
     jwtExpiresIn: '6h',
     recoverPasswordTokenExpirationMinutes: 15,
     passwordExpirationDays: 90,
-    recoveryPasswordBaseURL: 'http://dition.com.br/recovery-password',
+    recoveryPasswordBaseURL: 'http://fieldasset.com.br/recovery-password',
   },
   mail: {
-    from: '"Dition" <no-reply@dition.com.br>',
+    from: '"Field" <no-reply@fieldasset.com.br>',
     host: String(process.env.MAIL_HOST),
     port: Number(process.env.MAIL_PORT),
     secure: false,

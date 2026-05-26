@@ -10,7 +10,7 @@ import { ReportTypeEnum } from '../../app/funds/enums/report-type.enum';
 
 @Injectable()
 export class UserFundAccessSeeder implements Seeder {
-  private readonly targetUserEmail = 'master@dition.com.br';
+  private readonly targetUserEmail = 'master@fieldasset.com.br';
 
   private readonly targetFundExternalCode = '62728923000111';
 
