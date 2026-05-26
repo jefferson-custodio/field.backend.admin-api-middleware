@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseAppEntity } from '../../_base/base.entity';
-import { FundAccess } from './user-fund-access.entity';
+import { UserFundAccess } from '../../user-fund-access/entities/user-fund-access.entity';
 
 @Entity()
 export class Fund extends BaseAppEntity {
-  @OneToMany(() => FundAccess, (fundAccess) => fundAccess.fund)
-  fundAccesses: FundAccess[];
+  @OneToMany(() => UserFundAccess, (userFundAccess) => userFundAccess.fund)
+  userFundAccesses: UserFundAccess[];
 
   @Column({ nullable: false })
   name: string;

@@ -60,6 +60,13 @@ export class VortxAuthService {
     });
 
     const text = await response.text();
+    console.log('########### Vortx Auth Status ###########', {
+      status: response.status,
+      statusText: response.statusText,
+      contentType: response.headers.get('content-type'),
+      bodyLength: JSON.parse(text),
+    });
+
     let payload: unknown = text;
 
     try {

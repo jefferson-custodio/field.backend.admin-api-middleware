@@ -1,10 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { SingulareClient } from 'src/common/external/singulare/singulare.client';
 import { SingulareAuthService } from 'src/common/external/singulare/singulare-auth.service';
 import { ReportTypeEnum } from '../funds/enums/report-type.enum';
 import { MarketTypeEnum } from './enums/market-type.enum';
 import { SchedulerReportTypeEnum } from './enums/scheduler-report-type.enum';
 import { ProxySingulareFundAccessService } from './proxy-singulare.fund-access.service';
+
+type ScheduleReportBody = {
+  cnpjFundo: string;
+  callbackUrl: string;
+  date?: string;
+  dateFrom?: string;
+  dateTo?: string;
+};
 
 @Injectable()
 export class ProxySingulareService {
@@ -64,17 +72,66 @@ export class ProxySingulareService {
 
   async scheduleReport(
     tipoRelatorio: SchedulerReportTypeEnum,
-    cnpjFundo: string,
-    callbackUrl: string,
+    body: ScheduleReportBody,
   ): Promise<any> {
+    const payload = this.buildScheduleReportPayload(tipoRelatorio, body);
+
     return this.singulareClient.makeRequest(
       `/queue/scheduler/report/${tipoRelatorio}`,
       'POST',
-      {
-        cnpjFundo: cnpjFundo.replaceAll(/[./-]/g, ''),
-        callbackUrl,
-      },
+      payload,
     );
+  }
+
+  private buildScheduleReportPayload(
+    tipoRelatorio: SchedulerReportTypeEnum,
+    body: ScheduleReportBody,
+  ) {
+    const cnpjFundo = body.cnpjFundo?.replaceAll(/[./-]/g, '');
+    if (!cnpjFundo) {
+      throw new BadRequestException('cnpjFundo é obrigatório.');
+    }
+
+    if (!body.callbackUrl) {
+      throw new BadRequestException('callbackUrl é obrigatório.');
+    }
+
+    switch (tipoRelatorio) {
+      case SchedulerReportTypeEnum.FIDC_ESTOQUE:
+        if (!body.date) {
+          throw new BadRequestException(
+            'date é obrigatório para fidc-estoque.',
+          );
+        }
+        return {
+          cnpjFundo,
+          callbackUrl: body.callbackUrl,
+          date: body.date,
+        };
+
+      case SchedulerReportTypeEnum.FIDC_AQUISICAO_CONSOLIDADA:
+      case SchedulerReportTypeEnum.FIDC_LIQUIDADOS_BAIXADOS:
+        if (!body.dateFrom || !body.dateTo) {
+          throw new BadRequestException(
+            'dateFrom e dateTo são obrigatórios para este relatório.',
+          );
+        }
+        return {
+          cnpjFundo,
+          callbackUrl: body.callbackUrl,
+          dateFrom: body.dateFrom,
+          dateTo: body.dateTo,
+        };
+
+      case SchedulerReportTypeEnum.FIDC_MOVIMENTO_ABERTO:
+        return {
+          cnpjFundo,
+          callbackUrl: body.callbackUrl,
+        };
+
+      default:
+        throw new BadRequestException('tipoRelatorio inválido.');
+    }
   }
 
   private getMarketReportType(): ReportTypeEnum {

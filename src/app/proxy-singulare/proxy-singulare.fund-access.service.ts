@@ -1,17 +1,21 @@
 import { ReportTypeEnum } from '../funds/enums/report-type.enum';
-import { FundsService } from '../funds/funds.service';
 import { Injectable } from '@nestjs/common';
+import { UserFundAccessService } from '../user-fund-access/user-fund-access.service';
 
 @Injectable()
 export class ProxySingulareFundAccessService {
-  constructor(private readonly fundService: FundsService) {}
+  constructor(private readonly userFundAccessService: UserFundAccessService) {}
 
   async canViewFund(
     userId: number,
     fundDocument: string,
     reportType: ReportTypeEnum,
   ): Promise<boolean> {
-    return this.fundService.hasAccess(userId, fundDocument, reportType);
+    return this.userFundAccessService.hasAccess(
+      userId,
+      fundDocument,
+      reportType,
+    );
   }
 
   async filterByFundAccess(
