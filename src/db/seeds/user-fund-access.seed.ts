@@ -17,11 +17,9 @@ export class UserFundAccessSeeder implements Seeder {
   private readonly isProduction = process.env.NODE_ENV === 'production';
 
   private readonly reportTypes = [
-    ReportTypeEnum.MARKET,
-    ReportTypeEnum.LIQUIDADOS_BAIXADOS,
-    ReportTypeEnum.LIQUIDADOS_BAIXADOS_V2,
-    ReportTypeEnum.MOVIMENTO_ABERTO,
-    ReportTypeEnum.LIABILITY_PORTFOLIO,
+    ReportTypeEnum.ASSET,
+    ReportTypeEnum.RECEIVABLES,
+    ReportTypeEnum.SHAREHOLDER,
   ];
 
   constructor(

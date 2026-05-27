@@ -80,7 +80,7 @@ export class ProxyVortxController {
   })
   @ApiQuery({ name: 'dataCarteira', required: true, type: String })
   @ApiOkResponse({ type: AssetPortfolioResponseDto, isArray: true })
-  @ReportType(AccessReportTypeEnum.ASSET_PORTFOLIO)
+  @ReportType(AccessReportTypeEnum.ASSET)
   getAssetPortfolio(
     @Query() query: Record<string, any>,
   ): Promise<AssetPortfolioResponseDto[]> {
@@ -92,7 +92,7 @@ export class ProxyVortxController {
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataPosicao', required: true, type: String })
   @ApiOkResponse({ type: LiabilityShareholderPositionDto, isArray: true })
-  @ReportType(AccessReportTypeEnum.LIABILITY_PORTFOLIO)
+  @ReportType(AccessReportTypeEnum.SHAREHOLDER)
   getLiabilityShareholderPosition(
     @Query() query: Record<string, any>,
   ): Promise<LiabilityShareholderPositionDto[]> {
@@ -101,6 +101,7 @@ export class ProxyVortxController {
 
   @Get('carteira/movimentacaoCotista')
   @ApiOperation({ summary: 'Liability shareholder movement report' })
+  @ReportType(AccessReportTypeEnum.SHAREHOLDER)
   @ApiQuery({
     name: 'cnpjFundos[]',
     required: true,
@@ -109,7 +110,7 @@ export class ProxyVortxController {
   })
   @ApiQuery({ name: 'dataCarteira', required: true, type: String })
   @ApiOkResponse({ type: LiabilityShareholderMovementDto, isArray: true })
-  @ReportType(AccessReportTypeEnum.LIABILITY_PORTFOLIO)
+  @ReportType(AccessReportTypeEnum.SHAREHOLDER)
   getLiabilityShareholderMovement(
     @Query() query: Record<string, any>,
   ): Promise<LiabilityShareholderMovementDto[]> {
