@@ -32,31 +32,9 @@ import { SchedulerReportTypeEnum } from './enums/scheduler-report-type.enum';
 export class ProxySingulareController {
   constructor(private readonly proxySingulareService: ProxySingulareService) {}
 
-  @Get('health/probe')
+  @Get('fidc-custodia/report/aquisicao-consolidada')
   @UseGuards(ProxySingulareGuard)
-  @ApiOperation({ summary: 'Singulare protected probe endpoint' })
-  @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
-  @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
   @ReportType(ReportTypeEnum.RECEIVABLES)
-  probe(): Promise<{ ok: true }> {
-    return this.proxySingulareService.probe();
-  }
-
-  @Get('debug/token')
-  @UseGuards(ProxySingulareJwtGuard)
-  @ApiOperation({ summary: 'Temporary debug endpoint for Singulare token' })
-  @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
-  debugToken(): Promise<{
-    ok: true;
-    tokenPrefix: string;
-    tokenLength: number;
-  }> {
-    return this.proxySingulareService.debugToken();
-  }
-
-  @Get('aquisicao-consolidada')
-  @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.CONSOLIDATED_AQUISITION)
   @ApiOperation({ summary: 'Relatório Aquisição Consolidada - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -74,9 +52,9 @@ export class ProxySingulareController {
     );
   }
 
-  @Get('liquidados-baixados')
+  @Get('fidc-custodia/report/liquidados-baixados')
   @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.LIQUIDADOS_BAIXADOS)
+  @ReportType(ReportTypeEnum.RECEIVABLES)
   @ApiOperation({ summary: 'Relatório Liquidados Baixados - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -94,9 +72,9 @@ export class ProxySingulareController {
     );
   }
 
-  @Get('liquidados-baixados-v2')
+  @Get('fidc-custodia/report/liquidados-baixados/v2')
   @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.LIQUIDADOS_BAIXADOS_V2)
+  @ReportType(ReportTypeEnum.RECEIVABLES)
   @ApiOperation({ summary: 'Relatório Liquidados Baixados v2 - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -114,9 +92,10 @@ export class ProxySingulareController {
     );
   }
 
-  @Post('scheduler-report/:tipoRelatorio')
+  @Post('queue/scheduler/report/:tipoRelatorio')
   @UseGuards(ProxySingulareGuard)
   @ApiOperation({ summary: 'Agendamento de relatório - Singulare' })
+  @ReportType(ReportTypeEnum.RECEIVABLES)
   @ApiParam({
     name: 'tipoRelatorio',
     required: true,
@@ -171,12 +150,13 @@ export class ProxySingulareController {
     return this.proxySingulareService.scheduleReport(tipoRelatorio, body);
   }
 
-  @Get('market-report')
+  @Get('netreport/report/market/:tipoDeMercado/:data')
   @UseGuards(ProxySingulareJwtGuard)
   @ApiOperation({ summary: 'Relatório de Mercado - Singulare' })
   @ApiQuery({ name: 'date', required: true, type: String })
   @ApiQuery({ name: 'type', required: true, enum: MarketTypeEnum })
   @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
+  @ReportType(ReportTypeEnum.ASSET)
   async getMarketReport(
     @Query('date') date: string,
     @Query('type') type: MarketTypeEnum,

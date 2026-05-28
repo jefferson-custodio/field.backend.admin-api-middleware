@@ -59,11 +59,11 @@ export class ProxySingulareGuard extends BaseGuard {
       case SchedulerReportTypeEnum.FIDC_ESTOQUE:
         return ReportTypeEnum.RECEIVABLES;
       case SchedulerReportTypeEnum.FIDC_AQUISICAO_CONSOLIDADA:
-        return ReportTypeEnum.CONSOLIDATED_AQUISITION;
+        return ReportTypeEnum.RECEIVABLES;
       case SchedulerReportTypeEnum.FIDC_LIQUIDADOS_BAIXADOS:
-        return ReportTypeEnum.LIQUIDADOS_BAIXADOS;
+        return ReportTypeEnum.RECEIVABLES;
       case SchedulerReportTypeEnum.FIDC_MOVIMENTO_ABERTO:
-        return ReportTypeEnum.MOVIMENTO_ABERTO;
+        return ReportTypeEnum.RECEIVABLES;
       default:
         return undefined;
     }

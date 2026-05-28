@@ -135,7 +135,7 @@ export class ProxySingulareService {
   }
 
   private getMarketReportType(): ReportTypeEnum {
-    return ReportTypeEnum.MARKET;
+    return ReportTypeEnum.ASSET;
   }
 
   async marketReport(
