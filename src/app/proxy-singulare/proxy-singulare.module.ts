@@ -14,7 +14,6 @@ import { UserFundAccessModule } from '../user-fund-access/user-fund-access.modul
     ProxySingulareService,
     ProxySingulareGuard,
     ProxySingulareJwtGuard,
-    // Corrigido: adicionar o provider ausente
     ProxySingulareFundAccessService,
   ],
   exports: [ProxySingulareService, ProxySingulareFundAccessService],

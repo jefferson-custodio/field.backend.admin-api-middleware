@@ -119,7 +119,6 @@ export class ProxySingulareService {
         return {
           cnpjFundo,
           callbackUrl: body.callbackUrl,
-          dateFrom: body.dateFrom,
           dateTo: body.dateTo,
         };
 

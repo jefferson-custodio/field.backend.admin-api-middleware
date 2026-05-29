@@ -18,7 +18,7 @@ export class UserFundAccessSeeder implements Seeder {
 
   private readonly reportTypes = [
     ReportTypeEnum.ASSET,
-    ReportTypeEnum.RECEIVABLES,
+    ReportTypeEnum.RECEIVABLE,
     ReportTypeEnum.SHAREHOLDER,
   ];
 

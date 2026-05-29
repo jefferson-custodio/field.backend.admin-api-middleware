@@ -131,7 +131,7 @@ export class SingulareAuthService {
       return null;
     }
 
-    if (storedToken.expiresAt.getTime() <= Date.now()) {
+    if (storedToken.expiresAt.getTime() <= Date.now() + 30 * 1000) {
       return null;
     }
 
@@ -139,8 +139,8 @@ export class SingulareAuthService {
 
     try {
       token = decrypt256(storedToken.encryptedToken);
-    } catch {
-      return null;
+    } catch (err: unknown) {
+      console.error(err);
     }
 
     return {
@@ -212,6 +212,7 @@ export class SingulareAuthService {
         provider: SingulareAuthService.PROVIDER,
         encryptedToken,
         expiresAt,
+        updatedAt: new Date(),
       },
       ['provider'],
     );

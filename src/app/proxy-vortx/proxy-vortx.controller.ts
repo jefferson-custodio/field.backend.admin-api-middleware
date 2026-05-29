@@ -40,7 +40,7 @@ export class ProxyVortxController {
   @ApiQuery({ name: 'Take', required: false, type: Number })
   @ApiQuery({ name: 'Skip', required: false, type: Number })
   @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
-  @ReportType(AccessReportTypeEnum.RECEIVABLES)
+  @ReportType(AccessReportTypeEnum.RECEIVABLE)
   getReceivablesStock(
     @Param('cnpjFundo') cnpjFundo: string,
     @Query() query: Record<string, any>,
@@ -59,7 +59,7 @@ export class ProxyVortxController {
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
   @ApiQuery({ name: 'dataFinal', required: true, type: String })
   @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
-  @ReportType(AccessReportTypeEnum.RECEIVABLES)
+  @ReportType(AccessReportTypeEnum.RECEIVABLE)
   getReceivablesShipment(
     @Param('tipoRelatorio') tipoRelatorio: ShipmentReportTypeEnum,
     @Query() query: Record<string, any>,

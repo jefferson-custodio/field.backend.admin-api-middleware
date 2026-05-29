@@ -34,7 +34,7 @@ export class ProxySingulareController {
 
   @Get('fidc-custodia/report/aquisicao-consolidada')
   @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.RECEIVABLES)
+  @ReportType(ReportTypeEnum.RECEIVABLE)
   @ApiOperation({ summary: 'Relatório Aquisição Consolidada - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -54,7 +54,7 @@ export class ProxySingulareController {
 
   @Get('fidc-custodia/report/liquidados-baixados')
   @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.RECEIVABLES)
+  @ReportType(ReportTypeEnum.RECEIVABLE)
   @ApiOperation({ summary: 'Relatório Liquidados Baixados - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -74,7 +74,7 @@ export class ProxySingulareController {
 
   @Get('fidc-custodia/report/liquidados-baixados/v2')
   @UseGuards(ProxySingulareGuard)
-  @ReportType(ReportTypeEnum.RECEIVABLES)
+  @ReportType(ReportTypeEnum.RECEIVABLE)
   @ApiOperation({ summary: 'Relatório Liquidados Baixados v2 - FIDC Custódia' })
   @ApiQuery({ name: 'cnpjFundo', required: true, type: String })
   @ApiQuery({ name: 'dataInicial', required: true, type: String })
@@ -95,7 +95,7 @@ export class ProxySingulareController {
   @Post('queue/scheduler/report/:tipoRelatorio')
   @UseGuards(ProxySingulareGuard)
   @ApiOperation({ summary: 'Agendamento de relatório - Singulare' })
-  @ReportType(ReportTypeEnum.RECEIVABLES)
+  @ReportType(ReportTypeEnum.RECEIVABLE)
   @ApiParam({
     name: 'tipoRelatorio',
     required: true,
@@ -153,13 +153,13 @@ export class ProxySingulareController {
   @Get('netreport/report/market/:tipoDeMercado/:data')
   @UseGuards(ProxySingulareJwtGuard)
   @ApiOperation({ summary: 'Relatório de Mercado - Singulare' })
-  @ApiQuery({ name: 'date', required: true, type: String })
-  @ApiQuery({ name: 'type', required: true, enum: MarketTypeEnum })
+  @ApiParam({ name: 'date', required: true, type: String })
+  @ApiParam({ name: 'type', required: true, enum: MarketTypeEnum })
   @ApiOkResponse({ schema: { type: 'object', additionalProperties: true } })
   @ReportType(ReportTypeEnum.ASSET)
   async getMarketReport(
-    @Query('date') date: string,
-    @Query('type') type: MarketTypeEnum,
+    @Param('data') date: string,
+    @Param('tipoDeMercado') type: MarketTypeEnum,
     @Req() req: Request,
   ): Promise<any> {
     const userId = req['user']?.id;
